@@ -1,16 +1,39 @@
-# KickPoint AI website prototype
+# KickPoint AI
 
-A responsive front-end prototype for an AI-assisted soccer and tennis analysis subscription service.
+A personal soccer and tennis ticket generator. No accounts, no payments, no business - just a tool that scores matches and builds a ticket with the reasoning shown.
 
-## Included
+## Live
 
-- Responsive landing page
-- Soccer and tennis sample analysis tabs
-- Interactive ticket drawer
-- Signup/login prototype dialog
-- R100/month subscription presentation
-- Performance transparency and responsible-play messaging
+https://mvuyisimbulali-prog.github.io/kickpoint-ai/
 
-## Before production launch
+## Files
 
-This prototype uses fictional teams and demo metrics. It does not yet include authentication, a database, live sports feeds, prediction models, payment processing, or an admin dashboard. Connect licensed sports data, a secure backend and a recurring ZAR payment provider. Obtain South African legal advice before accepting payments or publishing betting recommendations. Do not market predictions as guaranteed wins.
+- `index.html` - the page
+- `styles.css` - all styling
+- `engine.js` - the scoring engine: model probability, fair price, edge, risk filters, ticket builder
+- `app.js` - the interface: generator form, ticket display, saved picks in browser storage
+
+## The engine
+
+Every fixture gets a set of markets. Each market receives:
+
+- a **model probability**
+- a **fair price** (1 / probability)
+- an **edge** = (probability x price) - 1
+- a **quality score**, used to rank selections against each other
+
+`buildTicket({ sport, risk, count })` filters by the chosen risk profile, sorts by quality, takes at most one selection per fixture, and returns the ticket with its combined chance, combined price and a plain-language verdict.
+
+Risk profiles:
+
+| Profile | Minimum chance | Maximum price |
+|---|---|---|
+| Conservative | 64% | 2.10 |
+| Balanced | 50% | 3.00 |
+| Aggressive | 30% | 6.00 |
+
+## Important
+
+The fixture list in `engine.js` is **practice data**. The maths is real; the matches are not. Real analysis needs a licensed live match feed.
+
+Nothing here predicts outcomes reliably and the site never claims a guaranteed win. Betting carries real financial risk. Adults 18+ only.
